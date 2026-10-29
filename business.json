@@ -1,0 +1,490 @@
+{
+  "id": "classdesk",
+  "name": "ClassDesk",
+  "tagline": "Students organized. Fees accounted for.",
+  "category": "Academy & tuition centre",
+  "color": "#1D4ED8",
+  "description": "Offline student enrollment, classes, attendance, fee dues and staff expense records for small academies and tuition centres.",
+  "entities": [
+    {
+      "key": "teachers",
+      "label": "Teachers",
+      "singular": "teacher",
+      "description": "Teacher contact and subject records.",
+      "primary": "name",
+      "fields": [
+        {
+          "key": "name",
+          "label": "Teacher name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "phone",
+          "label": "Phone",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "subjects",
+          "label": "Subjects",
+          "type": "text"
+        },
+        {
+          "key": "monthlySalary",
+          "label": "Reference monthly salary",
+          "type": "money",
+          "min": 0,
+          "default": 0
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "textarea"
+        }
+      ],
+      "columns": [
+        "name",
+        "phone",
+        "subjects",
+        "monthlySalary"
+      ]
+    },
+    {
+      "key": "classes",
+      "label": "Classes",
+      "singular": "class",
+      "description": "Class sections, assigned teacher and timetable notes.",
+      "primary": "name",
+      "fields": [
+        {
+          "key": "name",
+          "label": "Class / section name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "subject",
+          "label": "Subject",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "teacher",
+          "label": "Teacher",
+          "type": "reference",
+          "reference": "teachers"
+        },
+        {
+          "key": "schedule",
+          "label": "Days and timings",
+          "type": "textarea",
+          "required": true
+        },
+        {
+          "key": "room",
+          "label": "Room",
+          "type": "text"
+        },
+        {
+          "key": "monthlyFee",
+          "label": "Reference monthly fee",
+          "type": "money",
+          "min": 0,
+          "default": 0
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "textarea"
+        }
+      ],
+      "columns": [
+        "name",
+        "subject",
+        "teacher",
+        "schedule",
+        "monthlyFee"
+      ],
+      "unique": [
+        [
+          "name"
+        ]
+      ]
+    },
+    {
+      "key": "students",
+      "label": "Students",
+      "singular": "student",
+      "description": "Student enrollment, guardian contact and assigned class.",
+      "primary": "name",
+      "fields": [
+        {
+          "key": "name",
+          "label": "Student name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "admissionNo",
+          "label": "Admission number",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "guardian",
+          "label": "Guardian name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "phone",
+          "label": "Guardian / student phone",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "address",
+          "label": "Address",
+          "type": "textarea"
+        },
+        {
+          "key": "class",
+          "label": "Class / section",
+          "type": "reference",
+          "required": true,
+          "reference": "classes"
+        },
+        {
+          "key": "joinedOn",
+          "label": "Admission date",
+          "type": "date",
+          "required": true
+        },
+        {
+          "key": "active",
+          "label": "Currently enrolled",
+          "type": "checkbox",
+          "default": true
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "textarea"
+        }
+      ],
+      "columns": [
+        "name",
+        "admissionNo",
+        "class",
+        "guardian",
+        "phone",
+        "active"
+      ],
+      "unique": [
+        [
+          "admissionNo"
+        ]
+      ]
+    },
+    {
+      "key": "fees",
+      "label": "Fee dues",
+      "singular": "fee record",
+      "description": "Create one monthly due per student and record initial and later fee receipts.",
+      "primary": "reference",
+      "fields": [
+        {
+          "key": "reference",
+          "label": "Fee slip reference",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "student",
+          "label": "Student",
+          "type": "reference",
+          "required": true,
+          "reference": "students"
+        },
+        {
+          "key": "month",
+          "label": "Fee month (YYYY-MM)",
+          "type": "text",
+          "required": true,
+          "hint": "Use a consistent YYYY-MM key, for example 2026-10."
+        },
+        {
+          "key": "dueDate",
+          "label": "Due date",
+          "type": "date",
+          "required": true
+        },
+        {
+          "key": "amount",
+          "label": "Net fee due",
+          "type": "money",
+          "required": true,
+          "min": 0,
+          "default": 0
+        },
+        {
+          "key": "paid",
+          "label": "Fee received",
+          "type": "money",
+          "min": 0,
+          "default": 0
+        },
+        {
+          "key": "paymentMethod",
+          "label": "Initial payment method",
+          "type": "select",
+          "required": true,
+          "options": [
+            "cash",
+            "card",
+            "bank"
+          ],
+          "default": "cash",
+          "hint": "Applies only to money received when this record is created; later receipts choose their own method."
+        },
+        {
+          "key": "status",
+          "label": "Status",
+          "type": "select",
+          "required": true,
+          "options": [
+            "Due",
+            "Part-paid",
+            "Settled",
+            "Cancelled"
+          ]
+        },
+        {
+          "key": "notes",
+          "label": "Concession / payment notes",
+          "type": "textarea"
+        }
+      ],
+      "columns": [
+        "reference",
+        "student",
+        "month",
+        "dueDate",
+        "amount",
+        "paid"
+      ],
+      "workflow": {
+        "field": "status",
+        "initial": "Due",
+        "states": [
+          "Due",
+          "Part-paid",
+          "Settled",
+          "Cancelled"
+        ],
+        "terminal": [
+          "Settled",
+          "Cancelled"
+        ]
+      },
+      "finance": {
+        "total": "amount",
+        "paid": "paid"
+      },
+      "unique": [
+        [
+          "student",
+          "month"
+        ],
+        [
+          "reference"
+        ]
+      ]
+    },
+    {
+      "key": "attendance",
+      "label": "Attendance",
+      "singular": "attendance record",
+      "description": "Record daily attendance for a student; one entry per student/date.",
+      "primary": "student",
+      "fields": [
+        {
+          "key": "student",
+          "label": "Student",
+          "type": "reference",
+          "required": true,
+          "reference": "students"
+        },
+        {
+          "key": "date",
+          "label": "Attendance date",
+          "type": "date",
+          "required": true
+        },
+        {
+          "key": "attendance",
+          "label": "Attendance",
+          "type": "select",
+          "required": true,
+          "options": [
+            "Present",
+            "Absent",
+            "Leave"
+          ]
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "textarea"
+        }
+      ],
+      "columns": [
+        "student",
+        "date",
+        "attendance"
+      ],
+      "unique": [
+        [
+          "student",
+          "date"
+        ]
+      ]
+    },
+    {
+      "key": "salarypayments",
+      "label": "Teacher payments",
+      "singular": "teacher payment",
+      "description": "Record salary amounts paid; this is a spending record, not a customer collection.",
+      "primary": "reference",
+      "fields": [
+        {
+          "key": "reference",
+          "label": "Payment reference",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "teacher",
+          "label": "Teacher",
+          "type": "reference",
+          "required": true,
+          "reference": "teachers"
+        },
+        {
+          "key": "month",
+          "label": "Salary month (YYYY-MM)",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "date",
+          "label": "Payment date",
+          "type": "date",
+          "required": true
+        },
+        {
+          "key": "amount",
+          "label": "Amount paid",
+          "type": "money",
+          "required": true,
+          "min": 0,
+          "default": 0
+        },
+        {
+          "key": "method",
+          "label": "Paid through",
+          "type": "select",
+          "required": true,
+          "options": [
+            "Cash",
+            "Card",
+            "Bank"
+          ]
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "textarea"
+        }
+      ],
+      "columns": [
+        "reference",
+        "teacher",
+        "month",
+        "date",
+        "amount"
+      ],
+      "unique": [
+        [
+          "reference"
+        ]
+      ]
+    },
+    {
+      "key": "expenses",
+      "label": "Expenses",
+      "singular": "expense",
+      "description": "Record business spending independently of customer receipts.",
+      "primary": "description",
+      "fields": [
+        {
+          "key": "description",
+          "label": "Description",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "date",
+          "label": "Date",
+          "type": "date",
+          "required": true
+        },
+        {
+          "key": "category",
+          "label": "Category",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "amount",
+          "label": "Amount",
+          "type": "money",
+          "required": true,
+          "min": 0,
+          "default": 0
+        },
+        {
+          "key": "method",
+          "label": "Paid through",
+          "type": "select",
+          "required": true,
+          "options": [
+            "Cash",
+            "Card",
+            "Bank"
+          ]
+        },
+        {
+          "key": "notes",
+          "label": "Notes",
+          "type": "textarea"
+        }
+      ],
+      "columns": [
+        "description",
+        "date",
+        "category",
+        "amount"
+      ]
+    }
+  ],
+  "limitations": [
+    "Monthly fee dues are created manually; no bulk auto-generation, late-fee engine or attendance-device integration.",
+    "Class/teacher reference fees and salaries do not automatically populate or generate financial records.",
+    "One class reference per student; multi-course enrollment and timetable conflict checking are not implemented.",
+    "Fee-month keys are entered as YYYY-MM; consistent entry is required for monthly duplicate prevention.",
+    "Fee statuses Due, Part-paid and Settled are calculated from actual receipts; this pilot has no late-fee or refund automation.",
+    "No exam marksheets, certificates, guardian portal, online payments, payroll deductions or refunds."
+  ]
+}
